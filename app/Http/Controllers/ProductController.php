@@ -18,4 +18,14 @@ class ProductController extends Controller
             'products' => $products,
         ]);
     }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Product $product) // Product::where('id', 1)->first();
+    {
+        return view('products.show', [
+            'product' => $product,
+        ]);
+    }
 }
