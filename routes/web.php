@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
@@ -14,6 +15,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/products/{product}', [ProductController::class, 'show'])
         ->name('products.show');
+
+    Route::resource('/carts', CartController::class)->except(['show']);
+    Route::get('/carts/{product}', [CartController::class, 'show'])
+        ->name('carts.show');
 });
 
 // Route::view('dashboard', 'dashboard')

@@ -37,6 +37,7 @@
                             </div>
                             <p class="text-sm font-medium text-gray-900">{{ $product->stock }}</p>
                             <p class="text-sm font-medium text-gray-900">${{ $product->price }}</p>
+                            <flux:button href="{{ route('carts.show', $product) }}">Add to cart</flux:button>
                             </div>
                         </div>
                     @endforeach
