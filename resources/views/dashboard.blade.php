@@ -18,6 +18,10 @@
                 @endforeach
             </ul> --}}
 
+            @if(auth()->user()->can('create-products'))
+                <a href="{{ route('products.create') }}" class="rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-xs hover:bg-indigo-700">Create new product</a>
+            @endif
+
             <div class="bg-white">
                 {{ $products->links() }}
                 <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">

@@ -14,8 +14,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [ProductController::class, 'index'])
         ->name('dashboard');
 
-    Route::get('/products/{product}', [ProductController::class, 'show'])
-        ->name('products.show');
+    Route::resource('/products', ProductController::class)->except(['index'])->middleware(['admin']);
 
     Route::resource('/carts', CartController::class)->except(['show']);
     Route::get('/carts/{product}', [CartController::class, 'show'])
