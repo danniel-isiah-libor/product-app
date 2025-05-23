@@ -4,6 +4,7 @@ namespace App\Http\Requests\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class CreateRequest extends FormRequest
 {
@@ -12,8 +13,9 @@ class CreateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::user()->is_admin;
-        // return Auth::user()->can('create-product');
+        // return Auth::user()->is_admin;
+        return Auth::user()->can('create-products');
+        // return Gate::authorize('create-product', auth()->user());
     }
 
     /**

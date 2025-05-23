@@ -18,9 +18,11 @@
                 @endforeach
             </ul> --}}
 
-            @if(auth()->user()->can('create-products'))
+            {{-- @if(auth()->user()->can('create-products')) --}}
+            @can('create-products')
                 <a href="{{ route('products.create') }}" class="rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-xs hover:bg-indigo-700">Create new product</a>
-            @endif
+            @endcan
+            {{-- @endif --}}
 
             <div class="bg-white">
                 {{ $products->links() }}
