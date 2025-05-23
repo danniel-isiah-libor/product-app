@@ -84,7 +84,11 @@
                                                         </form>
                                                     </flux:button.group>
 
-                                                    <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
+                                                    <form action="{{ route('carts.destroy', $cart->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
+                                                    </form>
                                                 </div>
                                                 </div>
                                             </div>
@@ -103,7 +107,7 @@
                             </div>
                             <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                             <div class="mt-6">
-                                <a href="#" class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-xs hover:bg-indigo-700">Checkout</a>
+                                <a href="{{ route('checkout.create') }}" class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-xs hover:bg-indigo-700">Checkout</a>
                             </div>
                             <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
                                 <p>

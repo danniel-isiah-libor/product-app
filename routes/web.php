@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -19,6 +20,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/carts', CartController::class)->except(['show']);
     Route::get('/carts/{product}', [CartController::class, 'show'])
         ->name('carts.show');
+
+    Route::resource('/transactions', TransactionController::class)->except(['create', 'destroy', 'edit', 'update']);
+    Route::get('/checkout', [TransactionController::class, 'create'])
+        ->name('checkout.create');
 });
 
 // Route::view('dashboard', 'dashboard')

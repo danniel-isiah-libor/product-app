@@ -98,17 +98,25 @@ class CartController extends Controller
                 $qty = $cart->quantity - 1;
 
                 if ($qty < 1) {
-                    $cart->delete();
+                    $this->updateProductStock($id);
                     break;
                 } else {
                     $cart->quantity -= 1;
                     $cart->save();
+
+                    $cart->product->stock = $cart->product->stock + 1;
+                    $cart->product->save();
+
                     break;
                 }
 
             case 'plus':
                 $cart->quantity += 1;
                 $cart->save();
+
+                $cart->product->stock = $cart->product->stock - 1;
+                $cart->product->save();
+
                 break;
         }
 
@@ -120,6 +128,20 @@ class CartController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $this->updateProductStock($id);
+
+        return redirect()->back();
+    }
+
+    private function updateProductStock($id)
+    {
+        $cart = Cart::find($id);
+
+        $cart->product->stock = $cart->product->stock + $cart->quantity;
+        $cart->product->save();
+
+        $cart->delete();
+
+        return $this;
     }
 }
