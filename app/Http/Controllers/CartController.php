@@ -20,8 +20,16 @@ class CartController extends Controller
 
         $carts = Auth::user()->carts;
 
+        $total = $carts->map(function ($cart) {
+            $cart->total = $cart->product->price * $cart->quantity;
+
+            return $cart;
+        })
+            ->pluck('total')->sum();
+
         return view('carts.show', [
             'carts' => $carts,
+            'total' => $total,
         ]);
     }
 
@@ -81,7 +89,30 @@ class CartController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $action = $request->action;
+
+        $cart = Cart::find($id);
+
+        switch ($action) {
+            case 'minus':
+                $qty = $cart->quantity - 1;
+
+                if ($qty < 1) {
+                    $cart->delete();
+                    break;
+                } else {
+                    $cart->quantity -= 1;
+                    $cart->save();
+                    break;
+                }
+
+            case 'plus':
+                $cart->quantity += 1;
+                $cart->save();
+                break;
+        }
+
+        return redirect()->back();
     }
 
     /**

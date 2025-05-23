@@ -57,14 +57,33 @@
                                                     <h3>
                                                     <a href="#">{{ $cart->product->name }}</a>
                                                     </h3>
-                                                    <p class="ml-4">${{ $cart->product->price }}</p>
+                                                    <p class="ml-4">${{ $cart->product->price }} x {{ $cart->quantity }} = ${{ $cart->total }}</p>
                                                 </div>
                                                 <p class="mt-1 text-sm text-gray-500">{{ $cart->product->sku }}</p>
                                                 </div>
                                                 <div class="flex flex-1 items-end justify-between text-sm">
-                                                <p class="text-gray-500">Qty {{ $cart->quantity }}</p>
 
                                                 <div class="flex">
+                                                    <flux:button.group>
+                                                        <form action="{{ route('carts.update', $cart->id) }}" method="POST">
+                                                            @csrf
+                                                            @method('PUT')
+
+                                                            <flux:button icon="minus" type="submit"></flux:button>
+                                                            <input type="hidden" value="minus" name="action">
+                                                        </form>
+
+                                                        <flux:button disabled>{{ $cart->quantity }}</flux:button>
+
+                                                        <form action="{{ route('carts.update', $cart->id) }}" method="POST">
+                                                            @csrf
+                                                            @method('PUT')
+
+                                                            <flux:button icon="plus" type="submit"></flux:button>
+                                                            <input type="hidden" value="plus" name="action">
+                                                        </form>
+                                                    </flux:button.group>
+
                                                     <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
                                                 </div>
                                                 </div>
@@ -80,7 +99,7 @@
                             <div class="border-t border-gray-200 px-4 py-6 sm:px-6">
                             <div class="flex justify-between text-base font-medium text-gray-900">
                                 <p>Subtotal</p>
-                                <p>$262.00</p>
+                                <p>${{ $total }}</p>
                             </div>
                             <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                             <div class="mt-6">
