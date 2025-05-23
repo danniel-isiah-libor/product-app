@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
+use App\Notifications\ReceiptNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,18 +15,6 @@ class TransactionController extends Controller
     public function index()
     {
         $transactions = Auth::user()->transactions;
-
-        $transactions = $transactions->map(function ($transaction) {
-            $carts = collect($transaction->carts)->map(function ($cart) {
-                $cart->total = $cart->product->price * $cart->quantity;
-
-                return $cart;
-            });
-
-            $transaction->total = $carts->pluck('total')->sum();
-
-            return $transaction;
-        });
 
         return view('transactions.index', [
             'transactions' => $transactions,
@@ -60,11 +49,13 @@ class TransactionController extends Controller
 
         $form['carts'] = $carts->toArray();
 
-        Transaction::create($form);
+        $transaction = Transaction::create($form);
 
         $carts->each(function ($cart) {
             $cart->delete();
         });
+
+        Auth::user()->notify(new ReceiptNotification($transaction));
 
         return redirect()->route('transactions.index');
 

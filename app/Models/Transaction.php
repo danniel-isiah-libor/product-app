@@ -25,8 +25,23 @@ class Transaction extends Model
         'carts' => 'object',
     ];
 
+    protected $appends = [
+        'total',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getTotalAttribute()
+    {
+        $carts = collect($this->carts)->map(function ($cart) {
+            $cart->total = $cart->product->price * $cart->quantity;
+
+            return $cart;
+        });
+
+        return $carts->pluck('total')->sum();
     }
 }
