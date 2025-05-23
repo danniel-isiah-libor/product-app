@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Cart\StoreRequest;
 use App\Models\Cart;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,7 +16,13 @@ class CartController extends Controller
      */
     public function index()
     {
-        //
+        // $carts = Cart::where('user_id', Auth::user()->id)->get();
+
+        $carts = Auth::user()->carts;
+
+        return view('carts.show', [
+            'carts' => $carts,
+        ]);
     }
 
     // /**

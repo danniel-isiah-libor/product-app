@@ -34,6 +34,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
+    protected $withCount = [
+        'carts'
+    ];
+
     /**
      * Get the attributes that should be cast.
      *

@@ -14,6 +14,12 @@
             <flux:navlist variant="outline">
                 <flux:navlist.group :heading="__('Platform')" class="grid">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
+                    <flux:navlist.item icon="shopping-cart" :href="route('carts.index')" :current="request()->routeIs('carts.index')" wire:navigate>
+                        <div class="flex items-center gap-2 rtl:gap-3">
+                            <span>{{ __('Carts') }}</span>
+                            <flux:badge variant="primary" size="xs">{{ auth()->user()->carts_count }}</flux:badge>
+                        </div>
+                    </flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 
